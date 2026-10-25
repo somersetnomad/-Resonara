@@ -8,6 +8,7 @@
 - **Load file**: analyses an audio recording when a microphone isn't available.
 - **Binaural synthesis**: rotary knobs for carrier, beat, pink noise and level; an L×R phase scope; click-free fades and a safety limiter.
 - **Presets**: a bank of 12, including Golden Ratio φ, Schumann 7.83, Gamma 40 and Solfeggio tones.
+- **Operator's guide** built into the page: what Resonara is, how to use it step by step, and what you gain from it.
 - **Session timer** with automatic fade-out, a screen wake lock and keyboard shortcuts (`Space` play, `M` listen).
 
 ## Run it

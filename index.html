@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Resonara | Voice &amp; Frequency Instrument</title>
 <meta name="description" content="Resonara R-1: find your voice's fundamental frequency and play tuned binaural tones, live in the browser.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"%3E %3Cdefs%3E  %3ClinearGradient id="m" x1="0" y1="0" x2="0" y2="1"%3E%3Cstop offset="0" stop-color="#3b3e45"/%3E%3Cstop offset="1" stop-color="#16171a"/%3E%3C/linearGradient%3E  %3ClinearGradient id="g" x1="0" y1="0" x2="0" y2="1"%3E%3Cstop offset="0" stop-color="#ead1a0"/%3E%3Cstop offset="1" stop-color="#b8955a"/%3E%3C/linearGradient%3E %3C/defs%3E %3Crect x="2" y="2" width="60" height="60" rx="14" fill="url(#m)"/%3E %3Crect x="2.5" y="2.5" width="59" height="59" rx="13.5" fill="none" stroke="#ffffff" stroke-opacity=".12"/%3E %3Ccircle cx="32" cy="32" r="22" fill="none" stroke="url(#g)" stroke-width="2"/%3E %3Ccircle cx="32" cy="32" r="14" fill="none" stroke="url(#g)" stroke-opacity=".5" stroke-width="1.5"/%3E %3Cpath d="M12 32c4 0 4-8 8-8s4 16 8 16 4-16 8-16 4 16 8 16 4-8 8-8" fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#18191c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=JetBrains+Mono:wght@300;400;500&family=Manrope:wght@400;500;600&display=swap">
@@ -286,6 +289,56 @@ input.knob-edit { font-family: var(--f-lcd); font-size: 0.82rem; color: var(--am
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 [hidden] { display: none !important; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ===================== Operator's guide ===================== */
+.guide {
+  position: relative; max-width: 1220px; margin: 34px auto 0; border-radius: 22px;
+  background: linear-gradient(180deg, #1c1d21 0%, #151619 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 0 0 1px var(--metal-edge), 0 40px 80px -40px rgba(0,0,0,0.9);
+  padding: clamp(26px, 4.5vw, 56px);
+}
+.guide-head { display: grid; gap: 14px; max-width: 760px; }
+.guide-head h2 {
+  font-family: var(--f-engrave); font-weight: 400; font-size: clamp(1.25rem, 2.8vw, 1.85rem); line-height: 1.35; letter-spacing: 0.04em; color: #ecedf0; text-wrap: balance;
+}
+.guide-head h2 span { background: linear-gradient(180deg, var(--gold-hi), var(--gold) 60%, #9b7d4b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.guide-lede { font-size: 1.02rem; line-height: 1.7; color: #b4b7bf; max-width: 66ch; }
+.guide-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(22px, 4vw, 48px); margin-top: clamp(30px, 4vw, 44px); }
+@media (max-width: 900px) { .guide-cols { grid-template-columns: 1fr; } }
+.g-block { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.g-title { display: flex; align-items: center; gap: 12px; }
+.g-title::after { content: ""; flex: 1; height: 1px; background: rgba(0,0,0,0.6); box-shadow: 0 1px 0 rgba(255,255,255,0.05); }
+.g-title .engrave { color: var(--engrave); }
+
+.steps { list-style: none; counter-reset: st; display: grid; gap: 4px; }
+.steps li { counter-increment: st; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.steps li:last-child { border-bottom: 0; }
+.steps li::before {
+  content: counter(st, decimal-leading-zero); font-family: var(--f-lcd); font-size: 0.8rem; color: var(--amber); text-shadow: 0 0 8px var(--amber-glow);
+  width: 40px; height: 30px; display: grid; place-items: center; border-radius: 6px; background: var(--glass);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.9), 0 1px 0 rgba(255,255,255,0.06);
+}
+.steps b { display: block; color: #ecedf0; font-weight: 600; font-size: 0.96rem; }
+.steps p { color: #9fa2aa; font-size: 0.9rem; line-height: 1.6; margin-top: 3px; }
+.steps kbd, .notes kbd { font-family: var(--f-lcd); font-size: 0.7rem; color: var(--engrave); padding: 1px 6px; border-radius: 4px; background: #222327; box-shadow: inset 0 -1px 0 rgba(0,0,0,0.6), 0 0 0 1px #0b0b0d; }
+
+.gains { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 560px) { .gains { grid-template-columns: 1fr; } }
+.gain { min-width: 0; padding: 18px; border-radius: 14px; background: linear-gradient(180deg, #232429, #1b1c20); box-shadow: inset 0 1px 0 rgba(255,255,255,0.07), 0 0 0 1px #0b0b0d; display: flex; flex-direction: column; gap: 8px; }
+.gain-ico { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: var(--glass); box-shadow: inset 0 1px 3px rgba(0,0,0,0.9), 0 1px 0 rgba(255,255,255,0.06); }
+.gain-ico svg { width: 18px; height: 18px; }
+.gain.am .gain-ico { color: var(--amber); } .gain.cy .gain-ico { color: var(--cyan); }
+.gain b { color: #ecedf0; font-weight: 600; font-size: 0.94rem; }
+.gain p { color: #9fa2aa; font-size: 0.86rem; line-height: 1.55; }
+
+.notes { margin-top: clamp(28px, 4vw, 40px); padding-top: 22px; border-top: 1px solid rgba(0,0,0,0.6); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+@media (max-width: 900px) { .notes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .notes { grid-template-columns: 1fr; } }
+.note { min-width: 0; }
+.note .engrave { color: var(--gold); display: block; margin-bottom: 6px; }
+.note p { color: #8f929a; font-size: 0.84rem; line-height: 1.55; }
+.guide-link { font-family: var(--f-engrave); font-size: 0.56rem; letter-spacing: 0.2em; color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(207,174,116,0.4); padding-bottom: 2px; }
+.guide-link:hover { color: var(--gold-hi); }
 </style>
 </head>
 <body>
@@ -414,9 +467,50 @@ input.knob-edit { font-family: var(--f-lcd); font-size: 0.82rem; color: var(--am
   <!-- ===================== Bottom plate ===================== -->
   <footer class="plate-bottom">
     <div class="screen status" aria-live="polite"><span class="k">STATUS</span><span class="v" id="status">READY · PRESS LISTEN OR PLAY</span></div>
-    <div class="shortcuts engrave"><span><kbd>SPACE</kbd>Play</span><span><kbd>M</kbd>Listen</span><span><kbd>⇧ DRAG</kbd>Fine tune</span></div>
+    <div class="shortcuts engrave"><a class="guide-link" href="#guide">Guide ↓</a><span><kbd>SPACE</kbd>Play</span><span><kbd>M</kbd>Listen</span><span><kbd>⇧ DRAG</kbd>Fine tune</span></div>
   </footer>
 </div>
+
+
+<section class="guide" id="guide" aria-labelledby="guide-title">
+  <div class="guide-head">
+    <span class="engrave" style="color:var(--gold)">Operator’s guide · R-1</span>
+    <h2 id="guide-title">Your voice, measured. <span>Your tone, tuned.</span></h2>
+    <p class="guide-lede">Resonara is a two-part sound instrument that runs in your browser. The <b style="color:#ecedf0;font-weight:600">input bay</b> listens to your voice and finds its fundamental frequency, the steady base pitch your voice settles on, along with how steady it is and how rich its overtones are. The <b style="color:#ecedf0;font-weight:600">output bay</b> then plays pure, carefully tuned tones and binaural beats, built from presets or from your own voice, for relaxation, focus and meditation.</p>
+  </div>
+
+  <div class="guide-cols">
+    <div class="g-block">
+      <div class="g-title"><span class="engrave">How to use it</span></div>
+      <ol class="steps">
+        <li><div><b>Put on headphones</b><p>Binaural beats only work when each ear hears its own tone. Start with the level knob low and raise it to a comfortable volume.</p></div></li>
+        <li><div><b>Press Listen and hold a vowel</b><p>Sing a relaxed “Ah” or “Oh” at a natural pitch for 3 to 5 seconds. Allow microphone access when your browser asks. No mic? Use <b style="display:inline;font-weight:600">Load file</b> with a voice recording.</p></div></li>
+        <li><div><b>Read your results</b><p>The large number is your fundamental (F₀) in hertz. The needle shows how close you are to the nearest musical note, the pitch line shows how steady you held it, and the harmonic bars show the richness of your tone.</p></div></li>
+        <li><div><b>Tune the output</b><p>Press <b style="display:inline;font-weight:600">Tune to voice</b> to set the carrier to your own fundamental, or pick one of the 12 presets. Turn the knobs to adjust: drag, scroll, or click a value to type it. Hold <kbd>⇧</kbd> for fine control.</p></div></li>
+        <li><div><b>Play and settle in</b><p>Choose a timer, press <b style="display:inline;font-weight:600">Play</b> (or <kbd>Space</kbd>), close your eyes and breathe. The tone fades out gently when the session ends.</p></div></li>
+      </ol>
+    </div>
+
+    <div class="g-block">
+      <div class="g-title"><span class="engrave">What you gain</span></div>
+      <div class="gains">
+        <div class="gain cy"><span class="gain-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7" opacity=".6"/><circle cx="12" cy="12" r="10.5" opacity=".3"/></svg></span><b>Know your fundamental</b><p>Discover the exact frequency and note your voice naturally rests on, measured to a tenth of a hertz.</p></div>
+        <div class="gain cy"><span class="gain-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span><b>See how steady you are</b><p>The stability reading and pitch line show how calm and controlled your voice is. Watch them change as you relax.</p></div>
+        <div class="gain am"><span class="gain-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/></svg></span><b>Tones tuned to you</b><p>Build a session around your own voice’s frequency, rather than a generic tone made for everyone.</p></div>
+        <div class="gain am"><span class="gain-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/></svg></span><b>Guided brainwave sessions</b><p>Twelve presets span delta, theta, alpha, beta and gamma beats for rest, meditation, calm focus and alert work.</p></div>
+        <div class="gain am"><span class="gain-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></span><b>A simple daily ritual</b><p>Set a timer, put the screen down and let the tone fade out on its own: an easy 5 to 30 minute reset.</p></div>
+        <div class="gain cy"><span class="gain-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><b>Private by design</b><p>Everything runs on your device. Your voice is never recorded, stored or uploaded, and there’s no account to make.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <div class="note"><span class="engrave">Headphones</span><p>Needed for binaural beats. Pure tones with no beat (the Solfeggio presets) play fine on speakers.</p></div>
+    <div class="note"><span class="engrave">Microphone</span><p>Works on a secure page (https) in its own browser tab. If it’s blocked, the instrument tells you why and how to fix it.</p></div>
+    <div class="note"><span class="engrave">Best results</span><p>Use a quiet room, sit comfortably, and keep the volume low. Short daily sessions work better than occasional long ones.</p></div>
+    <div class="note"><span class="engrave">Please note</span><p>Resonara is for relaxation and exploration, not medical care. If you have epilepsy or a seizure disorder, check with your doctor before using beats.</p></div>
+  </div>
+</section>
 
 <p class="legal">Resonara is a sound and relaxation instrument, not a medical device. It doesn’t diagnose or treat any condition. Keep the volume comfortable. Audio stays on this device; nothing is recorded or uploaded.</p>
 
