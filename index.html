@@ -796,12 +796,33 @@ input.knob-edit { font-family: var(--f-lcd); font-size: 0.82rem; color: var(--am
     }
     if (!mic.stream) {
       const n = lastErr?.name, inFrame = window.self !== window.top;
-      showErr((n === 'NotAllowedError' || n === 'SecurityError') && inFrame ? 'This page is inside a frame (a preview or embed) that blocks the microphone. Open it in its own browser tab, or add allow="microphone" to the iframe.'
-        : n === 'NotAllowedError' || n === 'SecurityError' ? 'Microphone access was blocked. Click the lock or mic icon in the address bar, allow the microphone, then press Listen again. On a Mac, also check System Settings › Privacy & Security › Microphone.'
-        : n === 'NotFoundError' || n === 'OverconstrainedError' ? 'No microphone was found. Plug one in or choose an input in your sound settings.'
-        : n === 'NotReadableError' || n === 'AbortError' ? 'The microphone is busy in another app (Zoom, Teams, a recorder). Close it and try again.'
-        : `The microphone couldn’t start (${n || 'unknown error'}). Try again, or use Load file.`);
-      status('Microphone unavailable');
+      // Count the audio inputs the browser can see, to tell "no hardware" apart from "hardware hidden by the system"
+      let inputs = -1;
+      try { inputs = (await navigator.mediaDevices.enumerateDevices()).filter((d) => d.kind === 'audioinput').length; } catch (_) {}
+      const ua = navigator.userAgent;
+      const inApp = /FBAN|FBAV|Instagram|Line\/|LinkedInApp|GSA\/|; wv\)/i.test(ua);
+      const isMac = /Macintosh/.test(ua), isWin = /Windows/.test(ua);
+      const sysPath = isMac ? 'System Settings › Privacy & Security › Microphone, and switch your browser on'
+        : isWin ? 'Settings › Privacy & security › Microphone, and turn on “Let desktop apps access your microphone”'
+        : 'your device’s privacy settings, and allow this browser to use the microphone';
+      let msg;
+      if (inFrame && (n === 'NotAllowedError' || n === 'SecurityError' || n === 'NotFoundError')) {
+        msg = 'This page is running inside a preview or embed that blocks the microphone. Open Resonara in its own browser tab (for example from its GitHub Pages address).';
+      } else if (inApp) {
+        msg = 'You’re in an in-app browser (Instagram, Facebook, LinkedIn and similar) that doesn’t allow the microphone. Use the menu to open this page in Safari or Chrome.';
+      } else if (n === 'NotAllowedError' || n === 'SecurityError') {
+        msg = `Microphone access was blocked. Click the lock or mic icon in the address bar and allow the microphone, then press Listen again. If that doesn’t help, open ${sysPath}.`;
+      } else if (n === 'NotFoundError' || n === 'OverconstrainedError') {
+        msg = inputs > 0
+          ? `Your browser can see ${inputs} audio input${inputs > 1 ? 's' : ''} but can’t open ${inputs > 1 ? 'them' : 'it'}. This usually means the system is blocking it: open ${sysPath}. Then reload this page.`
+          : `No microphone is available to this browser. Plug in a headset or USB mic (or check that your built-in mic isn’t disabled), then reload the page. If you’re sure one is connected, open ${sysPath}. You can also use Load file with a voice recording.`;
+      } else if (n === 'NotReadableError' || n === 'AbortError') {
+        msg = 'The microphone is busy in another app (Zoom, Teams, a recorder). Close it and try again.';
+      } else {
+        msg = `The microphone couldn’t start (${n || 'unknown error'}). Try again, or use Load file.`;
+      }
+      showErr(msg);
+      status(`Mic error · ${n || 'unknown'}${inputs >= 0 ? ` · ${inputs} input${inputs === 1 ? '' : 's'} visible` : ''}`);
       setMicUI(false); return;
     }
     if (ctx.state !== 'running') { try { await ctx.resume(); } catch (_) {} }
